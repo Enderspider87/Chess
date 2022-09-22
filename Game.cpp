@@ -252,6 +252,7 @@ void Game::nextMove(Piece* cb[8][8], Legal* lb[8][8], Player* pb[2]){
         int finalRank = convertChess(dest).first;
         int finalFile = convertChess(dest).second;
         badMove = true;
+        char pType = 'x';
         while (badMove){
             if (finalRank == -1){
                 cout<<"Invalid input! Select another square to move to: ";
@@ -272,7 +273,6 @@ void Game::nextMove(Piece* cb[8][8], Legal* lb[8][8], Player* pb[2]){
                     gameBoard.display(true);
                     break;
                 }
-                    
                 finalRank = convertChess(dest).first;
                 finalFile = convertChess(dest).second;
             }
@@ -284,6 +284,7 @@ void Game::nextMove(Piece* cb[8][8], Legal* lb[8][8], Player* pb[2]){
                     }
                 }
                 mType = evalMoveType(cb, initRank, initFile, finalRank, finalFile);
+                pType = currPiece->getName()[0];
                 switch (mType){
                     case CASTLE:
                         performCastle(cb, initRank, initFile, finalFile, finalFile>initFile, playerTurn);
@@ -298,7 +299,7 @@ void Game::nextMove(Piece* cb[8][8], Legal* lb[8][8], Player* pb[2]){
                 badMove = false;
                 
             }
-            char pType = currPiece->getName()[0];
+            assert(pType != 'x');
             gameBoard.addMove(pType, dest);
             moveCount++; // Increases the global move count
             pb[playerNum]->incMoveCount(); // Increments the current player's move count.
